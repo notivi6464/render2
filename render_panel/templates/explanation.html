@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-white">Position Explanations</h2>
+    <div class="bg-dark text-light p-4 rounded shadow">
+        <div class="row">
+            <!-- Text Position Açıklamaları -->
+            <div class="col-md-6">
+                <h4>Text Position Açıklamaları:</h4>
+                <ul>
+                    <li><strong>Top Left:</strong> Metin üst sol köşeye yerleştirilir.</li>
+                    <li><strong>Top Center:</strong> Metin üst orta kısma yerleştirilir.</li>
+                    <li><strong>Top Right:</strong> Metin üst sağ köşeye yerleştirilir.</li>
+                    <li><strong>Middle Left:</strong> Metin orta sol kısma yerleştirilir.</li>
+                    <li><strong>Middle Center:</strong> Metin ortada hizalanır.</li>
+                    <li><strong>Middle Right:</strong> Metin orta sağ kısma yerleştirilir.</li>
+                    <li><strong>Bottom Left:</strong> Metin alt sol köşeye yerleştirilir.</li>
+                    <li><strong>Bottom Center:</strong> Metin alt orta kısma yerleştirilir.</li>
+                    <li><strong>Bottom Right:</strong> Metin alt sağ köşeye yerleştirilir.</li>
+                </ul>
+            </div>
+            <!-- Logo Position Açıklamaları -->
+            <div class="col-md-6">
+                <h4>Logo Position Açıklamaları:</h4>
+                <ul>
+                    <li><strong>Top Left:</strong> Logo üst sol köşeye yerleştirilir.</li>
+                    <li><strong>Top Center:</strong> Logo üst orta kısma yerleştirilir.</li>
+                    <li><strong>Top Right:</strong> Logo üst sağ köşeye yerleştirilir.</li>
+                    <li><strong>Middle Left:</strong> Logo orta sol kısma yerleştirilir.</li>
+                    <li><strong>Middle Center:</strong> Logo ortada hizalanır.</li>
+                    <li><strong>Middle Right:</strong> Logo orta sağ kısma yerleştirilir.</li>
+                    <li><strong>Bottom Left:</strong> Logo alt sol köşeye yerleştirilir.</li>
+                    <li><strong>Bottom Center:</strong> Logo alt orta kısma yerleştirilir.</li>
+                    <li><strong>Bottom Right:</strong> Logo alt sağ köşeye yerleştirilir.</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Geri Dön Butonu -->
+        <a href="{{ url_for('render_add') }}" class="btn btn-primary mt-4"><i class="fas fa-arrow-left me-2"></i> Render Add'e Geri Dön</a>
+    </div>
+</div>
+
+{% endblock %}

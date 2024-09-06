@@ -1,0 +1,189 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-white">Add Render</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Render Bilgileri Formu -->
+            <form method="POST" action="{{ url_for('render_add') }}" enctype="multipart/form-data" class="form-container">
+                <!-- Category Seçimi -->
+                <div class="mb-3">
+                    <label for="category" class="form-label">
+                        <i class="fas fa-folder-open me-2"></i>Select Category
+                    </label>
+                    <select class="form-control" id="category" name="category" required>
+                        <option value="" disabled selected>Select a category</option>
+                        {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Accordion Yapısı -->
+                <div class="accordion mb-4" id="renderAccordion">
+                    <!-- Video Settings -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="videoHeading">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#videoCollapse" aria-expanded="false" aria-controls="videoCollapse">
+                                <i class="fas fa-video me-2"></i> Video Settings
+                            </button>
+                        </h2>
+                        <div id="videoCollapse" class="accordion-collapse collapse" aria-labelledby="videoHeading" data-bs-parent="#renderAccordion">
+                            <div class="accordion-body">
+                                <div class="mb-3">
+                                    <label for="video_file" class="form-label"><i class="fas fa-file-video me-2"></i> Video File</label>
+                                    <input type="file" class="form-control" id="video_file" name="video_file" accept="video/*" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="video_name" class="form-label"><i class="fas fa-file-signature me-2"></i> Video Name</label>
+                                    <input type="text" class="form-control" id="video_name" name="video_name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="text_size" class="form-label">
+                                        <i class="fas fa-text-height me-2"></i> Text Size (px)
+                                    </label>
+                                    <input type="number" class="form-control" id="text_size" name="text_size" min="1" placeholder="Enter text size in pixels" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="text_color" class="form-label"><i class="fas fa-palette me-2"></i> Text Color</label>
+                                    <input type="color" class="form-control form-control-color" id="text_color" name="text_color" value="#ffffff" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="text_position" class="form-label">
+                                        <i class="fas fa-align-center me-2"></i> Text Position
+                                    </label>
+                                    <select class="form-control" id="text_position" name="text_position" required>
+                                        <option value="center">Center</option>
+                                        <option value="top">Top</option>
+                                        <option value="bottom">Bottom</option>
+                                        <option value="left">Left</option>
+                                        <option value="right">Right</option>
+                                        <option value="top left">Top Left</option>
+                                        <option value="top right">Top Right</option>
+                                        <option value="bottom left">Bottom Left</option>
+                                        <option value="bottom right">Bottom Right</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="text_spacing" class="form-label"><i class="fas fa-arrows-alt-v me-2"></i> Text Spacing</label>
+                                    <select class="form-control" id="text_spacing" name="text_spacing">
+                                        <option value="5">5 px</option>
+                                        <option value="10">10 px</option>
+                                        <option value="15">15 px</option>
+                                        <option value="20">20 px</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logo Settings -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="logoHeading">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#logoCollapse" aria-expanded="false" aria-controls="logoCollapse">
+                                <i class="fas fa-image me-2"></i> Logo Settings
+                            </button>
+                        </h2>
+                        <div id="logoCollapse" class="accordion-collapse collapse" aria-labelledby="logoHeading" data-bs-parent="#renderAccordion">
+                            <div class="accordion-body">
+                                <div class="mb-3">
+                                    <label for="logo_file" class="form-label"><i class="fas fa-file-image me-2"></i> Logo File (PNG/GIF only)</label>
+                                    <input type="file" class="form-control" id="logo_file" name="logo_file" accept=".png, .gif">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="logo_size" class="form-label"><i class="fas fa-expand-arrows-alt me-2"></i> Logo Size (px)</label>
+                                    <input type="number" class="form-control" id="logo_size" name="logo_size" min="1" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="logo_position" class="form-label">
+                                        <i class="fas fa-arrows-alt me-2"></i> Logo Position
+                                    </label>
+                                    <select class="form-control" id="logo_position" name="logo_position" required>
+                                        <option value="center">Center</option>
+                                        <option value="top">Top</option>
+                                        <option value="bottom">Bottom</option>
+                                        <option value="left">Left</option>
+                                        <option value="right">Right</option>
+                                        <option value="top left">Top Left</option>
+                                        <option value="top right">Top Right</option>
+                                        <option value="bottom left">Bottom Left</option>
+                                        <option value="bottom right">Bottom Right</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="logo_spacing" class="form-label"><i class="fas fa-arrows-alt-v me-2"></i> Logo Spacing</label>
+                                    <select class="form-control" id="logo_spacing" name="logo_spacing">
+                                        <option value="5">5 px</option>
+                                        <option value="10">10 px</option>
+                                        <option value="15">15 px</option>
+                                        <option value="20">20 px</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Options -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="videoOptionsHeading">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#videoOptionsCollapse" aria-expanded="false" aria-controls="videoOptionsCollapse">
+                                <i class="fas fa-cog me-2"></i> Video Options
+                            </button>
+                        </h2>
+                        <div id="videoOptionsCollapse" class="accordion-collapse collapse" aria-labelledby="videoOptionsHeading" data-bs-parent="#renderAccordion">
+                            <div class="accordion-body">
+                                <div class="mb-3">
+                                    <label for="video_codec" class="form-label"><i class="fas fa-video me-2"></i> Video Codec</label>
+                                    <select class="form-control" id="video_codec" name="video_codec">
+                                        <option value="copy">Copy (Original)</option>
+                                        <option value="libx264">H.264 (libx264)</option>
+                                        <option value="libx265">H.265 (libx265)</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="audio_codec" class="form-label"><i class="fas fa-volume-up me-2"></i> Audio Codec</label>
+                                    <select class="form-control" id="audio_codec" name="audio_codec">
+                                        <option value="copy">Copy (Original)</option>
+                                        <option value="aac">AAC (Advanced Audio Codec)</option>
+                                        <option value="mp3">MP3</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="video_quality" class="form-label"><i class="fas fa-expand me-2"></i> Video Quality</label>
+                                    <select class="form-control" id="video_quality" name="video_quality">
+                                        <option value="1920x1080">1920x1080 (Full HD)</option>
+                                        <option value="1280x720">1280x720 (HD)</option>
+                                        <option value="854x480">854x480 (SD)</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fps" class="form-label"><i class="fas fa-tachometer-alt me-2"></i> Frame Rate (FPS)</label>
+                                    <select class="form-control" id="fps" name="fps">
+                                        <option value="24">25 FPS</option>
+                                        <option value="30">30 FPS</option>
+                                        <option value="60">60 FPS</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bitrate" class="form-label"><i class="fas fa-tachometer-alt me-2"></i> Bitrate (kbps)</label>
+                                    <select class="form-control" id="bitrate" name="bitrate" required>
+                                        {% for rate in range(1500, 10001, 500) %}
+                                        <option value="{{ rate }}k">{{ rate }} kbps</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="submit-button"><i class="fas fa-play me-2"></i> Render</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Dosyasını Ekleyin -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Render Panel</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark d-flex flex-column align-items-start p-3" style="height: 100vh; position: fixed; width: 250px;">
+        <a class="navbar-brand mb-4" href="/" style="font-size: 24px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Render Panel</a>
+        <ul class="navbar-nav flex-column w-100">
+            <li class="nav-item">
+                <a class="nav-link" href="/"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/server"><i class="fas fa-server"></i> Server</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarCategory" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-folder"></i> Category</a>
+                <div class="dropdown-menu" aria-labelledby="navbarCategory">
+                    <a class="dropdown-item" href="/category/add"><i class="fas fa-plus"></i> Category Add</a>
+                    <a class="dropdown-item" href="/category/manage"><i class="fas fa-edit"></i> Category Manage</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarRender" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-video"></i> Render</a>
+                <div class="dropdown-menu" aria-labelledby="navbarRender">
+                    <a class="dropdown-item" href="/render/add"><i class="fas fa-plus"></i> Render Add</a>
+                    <a class="dropdown-item" href="/render/list"><i class="fas fa-list"></i> Render List</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/video/list"><i class="fas fa-film"></i> Video List</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- İçerik Alanı -->
+    <div class="container-fluid" style="margin-left: 270px; padding-top: 20px;">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col text-center">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

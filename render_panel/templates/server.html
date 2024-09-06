@@ -1,0 +1,105 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-white">Server Status</h2>
+    <div class="row">
+        <!-- İşlemci Bilgileri -->
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm bg-dark text-white">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title mb-0">CPU Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Processor:</strong> <span id="cpuInfo"></span></p>
+                    <p><strong>Cores:</strong> <span id="cpuCores"></span></p>
+                    <p><strong>Threads:</strong> <span id="cpuThreads"></span></p>
+                    <p><strong>Temperature:</strong> <span id="cpuTemperature"></span> °C</p>
+                    <p><strong>Frequency:</strong> <span id="cpuFreq"></span> MHz</p>
+                    <h6>Total CPU Usage:</h6>
+                    <div class="progress mb-3 bg-light">
+                        <div id="cpuTotalUsageBar" class="progress-bar bg-info" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="text-center"><span id="cpuTotalUsage">0</span>%</p>
+                    <h6>Core Usage:</h6>
+                    <ul id="cpuCoreUsage" class="list-group bg-dark text-white">
+                        <!-- Çekirdek Kullanım Bilgileri Dinamik Olarak Buraya Eklenir -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- RAM Bilgileri -->
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm bg-dark text-white">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title mb-0">RAM Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Total RAM:</strong> <span id="ramTotal"></span> GB</p>
+                    <div class="progress mb-3 bg-light">
+                        <div id="ramUsageBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="text-center"><span id="ramUsage">0</span>%</p>
+                    <p><strong>Total Swap:</strong> <span id="swapTotal"></span> GB</p>
+                    <div class="progress mb-3 bg-light">
+                        <div id="swapUsageBar" class="progress-bar bg-warning" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <p class="text-center"><span id="swapUsage">0</span>%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Sunucu bilgilerini güncellemek için JavaScript fonksiyonu
+function updateServerStatus() {
+    fetch('/api/server-status')
+        .then(response => response.json())
+        .then(data => {
+            // İşlemci Bilgilerini Güncelle
+            document.getElementById('cpuInfo').textContent = data.cpu_info;
+            document.getElementById('cpuCores').textContent = data.cpu_cores;
+            document.getElementById('cpuThreads').textContent = data.cpu_threads;
+            document.getElementById('cpuTemperature').textContent = data.cpu_temperature;
+            document.getElementById('cpuFreq').textContent = data.cpu_freq;
+
+            // Toplam CPU Kullanımını Güncelle
+            document.getElementById('cpuTotalUsage').textContent = data.cpu_usage_total;
+            document.getElementById('cpuTotalUsageBar').style.width = data.cpu_usage_total + '%';
+            document.getElementById('cpuTotalUsageBar').setAttribute('aria-valuenow', data.cpu_usage_total);
+
+            // İşlemci Çekirdek Kullanımı
+            const cpuCoreUsage = document.getElementById('cpuCoreUsage');
+            cpuCoreUsage.innerHTML = ''; // Mevcut listeyi temizle
+            data.cpu_usage_per_core.forEach((usage, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center bg-dark text-white';
+                listItem.textContent = `Core ${index + 1}`;
+                const badge = document.createElement('span');
+                badge.className = 'badge badge-info badge-pill';
+                badge.textContent = `${usage}%`;
+                listItem.appendChild(badge);
+                cpuCoreUsage.appendChild(listItem);
+            });
+
+            // RAM Bilgilerini Güncelle
+            document.getElementById('ramTotal').textContent = data.ram_total_gb;
+            document.getElementById('ramUsage').textContent = data.ram_used_percent;
+            document.getElementById('ramUsageBar').style.width = data.ram_used_percent + '%';
+            document.getElementById('ramUsageBar').setAttribute('aria-valuenow', data.ram_used_percent);
+
+            // Swap Bilgilerini Güncelle
+            document.getElementById('swapTotal').textContent = data.swap_total_gb;
+            document.getElementById('swapUsage').textContent = data.swap_used_percent;
+            document.getElementById('swapUsageBar').style.width = data.swap_used_percent + '%';
+            document.getElementById('swapUsageBar').setAttribute('aria-valuenow', data.swap_used_percent);
+        });
+}
+
+// Her 5 saniyede bir sunucu durumunu güncelle
+setInterval(updateServerStatus, 5000);
+updateServerStatus();
+</script>
+{% endblock %}

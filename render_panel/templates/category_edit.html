@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-white">Edit Category: {{ category_name }}</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Kategori Düzenleme Formu -->
+            <form method="POST" action="{{ url_for('category_edit', category_name=category_name) }}" class="bg-dark p-4 rounded shadow-sm">
+                <div class="form-group">
+                    <label for="new_name" class="text-white">New Category Name</label>
+                    <input type="text" class="form-control" id="new_name" name="new_name" placeholder="Enter new category name" required>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
